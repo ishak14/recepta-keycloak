@@ -1,0 +1,26 @@
+# Hemligheter och lokal miljö
+.env
+.env.*
+!.env.example
+
+# Arbetsfiler från utvärderingar och byggen
+.eval/
+
+# OS och editorer
+.DS_Store
+.idea/
+*.iml
+.vs/
+.vscode/
+
+# Byggen
+**/target/
+__pycache__/
+
+# Certifikat, nycklar och lokala exporter
+*.pem
+*.key
+*.p12
+*.pfx
+*.csv
+*.log
