@@ -48,6 +48,9 @@ services:
       BANKID_OIDC_CLIENT_ID: ${BANKID_OIDC_CLIENT_ID:-platshallare}
       BANKID_OIDC_CLIENT_SECRET: ${BANKID_OIDC_CLIENT_SECRET:-platshallare}
       BANKID_OIDC_CLAIM_PERSONAL_NUMBER: ${BANKID_OIDC_CLAIM_PERSONAL_NUMBER:-PLATSHALLARE}
+    volumes:
+      # Temat läses direkt från mappen så att ändringar syns utan ombyggnad.
+      - ./themes/recepta:/opt/keycloak/themes/recepta:ro
     ports:
       # Bara den här datorn, både IPv4 och IPv6, så att "localhost" alltid
       # hamnar här. Hanteringsporten 9000 publiceras inte.

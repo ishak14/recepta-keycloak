@@ -1,6 +1,7 @@
 {
   "realm": "recepta",
   "displayName": "Receptläkaren",
+  "loginTheme": "recepta",
   "enabled": true,
   "sslRequired": "external",
   "registrationAllowed": false,
