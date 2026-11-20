@@ -1,0 +1,59 @@
+{
+  "ifResourceExists": "SKIP",
+  "users": [
+    {
+      "username": "test-anna",
+      "enabled": true,
+      "firstName": "Anna",
+      "lastName": "Testsson",
+      "attributes": {
+        "personal_number": [
+          "189007209803"
+        ]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Test-1234!",
+          "temporary": false
+        }
+      ]
+    },
+    {
+      "username": "test-erik",
+      "enabled": true,
+      "firstName": "Erik",
+      "lastName": "Provberg",
+      "attributes": {
+        "personal_number": [
+          "189007219810"
+        ]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Test-1234!",
+          "temporary": false
+        }
+      ]
+    },
+    {
+      "username": "test-sara",
+      "enabled": true,
+      "firstName": "Sara",
+      "lastName": "Exempelsson",
+      "attributes": {
+        "personal_number": [
+          "189007229801"
+        ]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Test-1234!",
+          "temporary": false
+        }
+      ]
+    }
+  ]
+}

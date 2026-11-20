@@ -65,5 +65,20 @@ services:
       retries: 60
       start_period: 20s
 
+  # BARA UTVECKLING: lägger in testanvändare när Keycloak är uppe och avslutas sedan.
+  dev-seed:
+    build: .
+    entrypoint: ["/bin/bash", "/dev-seed/seed.sh"]
+    restart: "no"
+    depends_on:
+      keycloak:
+        condition: service_healthy
+    environment:
+      KEYCLOAK_URL: http://keycloak:8081
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN:?Saknas, kopiera .env.example till .env}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:?Saknas, kopiera .env.example till .env}
+    volumes:
+      - ./dev:/dev-seed:ro
+
 volumes:
   keycloak-db:
