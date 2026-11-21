@@ -14,20 +14,17 @@ python3 prove/prove.py
 
 | Vad | Adress |
 |---|---|
-| Utfärdare | `http://localhost:8081/realms/recepta` |
-| Inställningar för OIDC | `http://localhost:8081/realms/recepta/.well-known/openid-configuration` |
-| Adminkonsol | `http://localhost:8081/admin` (konto enligt `.env`) |
+| Utfärdare | `http://localhost:8082/realms/recepta` |
+| Inställningar för OIDC | `http://localhost:8082/realms/recepta/.well-known/openid-configuration` |
+| Adminkonsol | `http://localhost:8082/admin` (konto enligt `.env`) |
 
 Stoppa med `docker compose down`. Databasen ligger kvar i volymen `recepta-keycloak_keycloak-db`.
 
-### Port 8081 och Expo
+### Varför port 8082
 
-`safeaid-mobile` kör Expo på `*:8081`. Compose binder därför både `127.0.0.1:8081` och `[::1]:8081`, så att `localhost:8081` är Keycloak så länge behållarna är igång.
+`safeaid-keycloak` använder 8080 och Expo för `safeaid-mobile` lyssnar på 8081. Porten byttes från 8081 till 8082 i kontraktet 2026-11-21. Compose binder både `127.0.0.1:8082` och `[::1]:8082`.
 
-- **Keycloak igång:** Expo nås inte på `localhost:8081` (bara på datorns nätverksadress).
-- **Keycloak stoppad:** `localhost:8081` svarar från Expo med 404. Får sajten eller API:t 404 från Keycloak-adressen är detta orsaken.
-
-Frågan om en annan port står i `05-Plan/Öppna frågor.md`.
+Får sajten eller API:t 404 från Keycloak-adressen: kontrollera att behållarna är igång och att inget annat lyssnar på porten.
 
 ## Testanvändare (bara utveckling)
 
@@ -43,7 +40,7 @@ Sajten skickar `kc_idp_hint=bankid`. Så länge `bankid` är avstängd bortser K
 
 ## Det sajten och API:t får
 
-- **Klient `recepta-web`:** konfidentiell, authorization code, PKCE S256 är tvingande. Återanrop exakt `http://localhost:3000/api/auth/callback`, efter utloggning exakt `http://localhost:3000/`. Hemligheten i utvecklingsläge är `RECEPTA_WEB_CLIENT_SECRET` i `.env.example`; sajten läser samma värde från `KEYCLOAK_CLIENT_SECRET`.
+- **Klient `recepta-web`:** konfidentiell, authorization code, PKCE S256 är tvingande. Återanrop exakt `http://localhost:3010/api/auth/callback`, efter utloggning exakt `http://localhost:3010/`. Hemligheten i utvecklingsläge är `RECEPTA_WEB_CLIENT_SECRET` i `.env.example`; sajten läser samma värde från `KEYCLOAK_CLIENT_SECRET`.
 - **Klient `recepta-api`:** tar bara emot token (`bearerOnly`).
 - **Access-token till `recepta-web`:** `iss`, `sub`, `aud` med `recepta-api`, `personal_number` (tolv siffror), `given_name`, `family_name`.
 - **Personnumret** finns bara i access-token. Det finns inte i id-token, inte i userinfo och aldrig som användarnamn. Användaren kan varken se eller ändra attributet själv.

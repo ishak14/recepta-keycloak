@@ -28,11 +28,11 @@ def dotenv():
 
 
 ENV = {**dotenv(), **os.environ}
-BASE = ENV.get("KEYCLOAK_URL", "http://localhost:8081").rstrip("/")
+BASE = ENV.get("KEYCLOAK_URL", "http://localhost:8082").rstrip("/")
 ISSUER = f"{BASE}/realms/recepta"
 CLIENT_ID = "recepta-web"
 CLIENT_SECRET = ENV.get("RECEPTA_WEB_CLIENT_SECRET", "")
-WEB_URL = ENV.get("RECEPTA_WEB_URL", "http://localhost:3000").rstrip("/")
+WEB_URL = ENV.get("RECEPTA_WEB_URL", "http://localhost:3010").rstrip("/")
 REDIRECT_URI = f"{WEB_URL}/api/auth/callback"
 TEST_USER = json.loads((ROOT / "dev" / "testanvandare.json").read_text())["users"][0]
 USERNAME = TEST_USER["username"]
@@ -98,7 +98,7 @@ def wait_ready(opener):
             pass
         time.sleep(3)
     fail(f"Keycloak svarade inte på {ISSUER} inom tre minuter. "
-         "Svarar något annat på porten (till exempel Expo på 8081)?")
+         "Är behållarna igång, och svarar något annat på porten?")
 
 
 def authorize(opener, challenge=None, redirect_uri=REDIRECT_URI):

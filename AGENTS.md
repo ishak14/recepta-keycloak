@@ -12,7 +12,7 @@ Förebild: `/Users/ishak/Projects/safeaid/safeaid-keycloak` (`Dockerfile`, `comp
 - BankID nås genom identitetsleverantören med alias `bankid`. Bygg ingen egen BankID-koppling vid sidan av.
 - Personnummer lämnas ut i claimet `personal_number` och ingen annanstans.
 - Adminkonsolen och hanteringsporten 9000 exponeras aldrig publikt.
-- Port 8081 lokalt, eftersom safeaid använder 8080.
+- Port 8082 lokalt, eftersom safeaid använder 8080 och 8081.
 
 ## Kontroll
 
