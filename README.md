@@ -35,6 +35,7 @@ Läggs in av tjänsten `dev-seed` från `dev/testanvandare.json` varje gång com
 | `test-anna` | `Test-1234!` | Anna Testsson | `189007209803` |
 | `test-erik` | `Test-1234!` | Erik Provberg | `189007219810` |
 | `test-sara` | `Test-1234!` | Sara Exempelsson | `189007229801` |
+| `test-lakare` | `Test-1234!` | Lena Testläkare | inget, har rollen `doctor` |
 
 Sajten skickar `kc_idp_hint=bankid`. Så länge `bankid` är avstängd bortser Keycloak från det och visar formuläret med användarnamn och lösenord.
 
@@ -53,7 +54,7 @@ Sajten skickar `kc_idp_hint=bankid`. Så länge `bankid` är avstängd bortser K
 | `compose.yaml` | Postgres 17, Keycloak och `dev-seed`. Bara för lokal utveckling |
 | `realm/recepta-realm.json` | Realmen. Värden med `${...}` hämtas från miljön vid inläsning |
 | `dev/` | Testanvändare och skriptet som lägger in dem. Bara utveckling |
-| `themes/recepta/login` | Inloggningssidan i designens färger, med Geist (OFL) som egen fil |
+| `themes/recepta/login` | Inloggningssidan med sajtens logotyp och färger, med Geist och Figtree (OFL) som egna filer |
 | `prove/prove.py` | Bevis mot kontraktet |
 | `bankid/` | Utvärderingen av `bankid4keycloak` |
 

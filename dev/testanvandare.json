@@ -54,6 +54,22 @@
           "temporary": false
         }
       ]
+    },
+    {
+      "username": "test-lakare",
+      "enabled": true,
+      "firstName": "Lena",
+      "lastName": "Testläkare",
+      "realmRoles": [
+        "doctor"
+      ],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Test-1234!",
+          "temporary": false
+        }
+      ]
     }
   ]
 }

@@ -101,8 +101,9 @@
 <main class="${properties.kcLoginClass!}">
     <section class="${properties.kcFormCardClass!}">
         <div class="rc-brand">
-            <svg aria-hidden="true" width="30" height="30" viewBox="0 0 30 30" fill="none"><rect x="1" y="1" width="28" height="28" rx="8" fill="#1746D1"></rect><path d="M15 8v14M8 15h14" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round"></path></svg>
-            <span>Receptläkaren</span>
+            <svg aria-hidden="true" width="40" height="40" viewBox="0 0 48 48" fill="none"><path d="M15.5 11A6.5 6.5 0 0 1 22 4.5L26 4.5A6.5 6.5 0 0 1 32.5 11L32.5 13A2.5 2.5 0 0 0 35 15.5L37 15.5A6.5 6.5 0 0 1 43.5 22L43.5 26A6.5 6.5 0 0 1 37 32.5L35 32.5A2.5 2.5 0 0 0 32.5 35L32.5 37A6.5 6.5 0 0 1 26 43.5L22 43.5A6.5 6.5 0 0 1 15.5 37L15.5 35A2.5 2.5 0 0 0 13 32.5L11 32.5A6.5 6.5 0 0 1 4.5 26L4.5 22A6.5 6.5 0 0 1 11 15.5L13 15.5A2.5 2.5 0 0 0 15.5 13Z" stroke="#0A6FD1" stroke-width="5.5" stroke-linejoin="round"></path></svg>
+            <span class="rc-brand-bar" aria-hidden="true"></span>
+            <span class="rc-brand-name"><span>Recept</span><span class="rc-brand-accent">läkaren</span></span>
         </div>
         <header class="${properties.kcFormHeaderClass!}">
             <#if realm.internationalizationEnabled && locale.supported?size gt 1>

@@ -1,4 +1,12 @@
-/* Receptläkaren – inloggning. Färger och typsnitt från recepta-design. */
+/* Receptläkaren – inloggning. Färger och typsnitt följer sajten (recepta-web/src/app/globals.css). */
+@font-face {
+  font-family: "Figtree";
+  src: url("../fonts/Figtree-Variable-latin.woff2") format("woff2");
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 @font-face {
   font-family: "Geist";
   src: url("../fonts/Geist-Variable.woff2") format("woff2");
@@ -8,21 +16,22 @@
 }
 
 :root {
-  --rc-ink: #0C1A2B;
-  --rc-text: #3D4A5C;
-  --rc-muted: #4A5768;
-  --rc-accent: #1746D1;
-  --rc-accent-dark: #1238A8;
-  --rc-surface: #F4F6F8;
+  --rc-ink: #0B2A5B;
+  --rc-text: #3A4D6B;
+  --rc-muted: #4B5D78;
+  --rc-accent: #0864BD;
+  --rc-brand: #0A6FD1;
+  --rc-accent-dark: #064F97;
+  --rc-surface: #F3F6FA;
   --rc-card: #FFFFFF;
-  --rc-line: #DFE4EA;
-  --rc-line-strong: #C5CDD7;
+  --rc-line: #DDE5EE;
+  --rc-line-strong: #C2CEDC;
   --rc-danger: #B42318;
   --rc-danger-soft: #FEF3F2;
   --rc-ok: #0B6B4F;
   --rc-ok-soft: #ECF7F3;
   --rc-warn-soft: #FFF7E6;
-  --rc-info-soft: #EEF3FF;
+  --rc-info-soft: #E8F2FC;
 }
 
 *,
@@ -68,14 +77,33 @@
   align-items: center;
   gap: 10px;
   color: var(--rc-ink);
-  font-weight: 700;
-  font-size: 21px;
-  letter-spacing: -0.02em;
   margin-bottom: 28px;
+}
+
+.rc-brand-bar {
+  width: 2px;
+  align-self: stretch;
+  border-radius: 2px;
+  background: var(--rc-ink);
+}
+
+.rc-brand-name {
+  display: flex;
+  flex-direction: column;
+  font-family: Figtree, Geist, system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 20px;
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+}
+
+.rc-brand-accent {
+  color: var(--rc-brand);
 }
 
 h1,
 #kc-page-title {
+  font-family: Figtree, Geist, system-ui, sans-serif;
   margin: 0 0 8px;
   color: var(--rc-ink);
   font-size: 28px;
@@ -216,7 +244,7 @@ a:hover {
   min-height: 48px;
   padding: 12px 20px;
   border: 1px solid transparent;
-  border-radius: 12px;
+  border-radius: 999px;
   font: inherit;
   font-weight: 600;
   text-decoration: none;

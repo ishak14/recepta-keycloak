@@ -9,6 +9,9 @@
   "editUsernameAllowed": false,
   "resetPasswordAllowed": false,
   "rememberMe": false,
+  "ssoSessionIdleTimeout": 1800,
+  "ssoSessionMaxLifespan": 28800,
+  "accessTokenLifespan": 300,
   "verifyEmail": false,
   "loginWithEmailAllowed": false,
   "duplicateEmailsAllowed": true,
@@ -86,6 +89,21 @@
             "userinfo.token.claim": "false",
             "introspection.token.claim": "true",
             "multivalued": "false"
+          }
+        },
+        {
+          "name": "realm-roles",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-realm-role-mapper",
+          "consentRequired": false,
+          "config": {
+            "claim.name": "roles",
+            "jsonType.label": "String",
+            "multivalued": "true",
+            "access.token.claim": "true",
+            "id.token.claim": "false",
+            "userinfo.token.claim": "false",
+            "introspection.token.claim": "true"
           }
         }
       ]
@@ -187,5 +205,21 @@
         }
       }
     ]
-  }
+  },
+  "roles": {
+    "realm": [
+      {
+        "name": "doctor",
+        "description": "Läkare som bedömer ärenden i den tillfälliga läkarvyn. Tilldelas bara av administratör."
+      }
+    ]
+  },
+  "scopeMappings": [
+    {
+      "client": "recepta-web",
+      "roles": [
+        "doctor"
+      ]
+    }
+  ]
 }
