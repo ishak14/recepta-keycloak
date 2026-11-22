@@ -80,6 +80,9 @@ services:
       KEYCLOAK_URL: http://keycloak:8082
       KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN:?Saknas, kopiera .env.example till .env}
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:?Saknas, kopiera .env.example till .env}
+      # Sajtens adress. Realmfilen läses bara in när realmen saknas, så dev-seed
+      # ser till att återanropen stämmer även i en databas som redan finns.
+      RECEPTA_WEB_URL: ${RECEPTA_WEB_URL:-http://localhost:3010}
     volumes:
       - ./dev:/dev-seed:ro
 

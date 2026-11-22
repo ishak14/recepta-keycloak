@@ -6,9 +6,12 @@ en testanvändare genom recepta-web-klientens flöde (authorization code med PKC
 S256) och kontrollerar access-token: signatur, iss, aud och claims.
 
 Bara standardbiblioteket. Kör: python3 prove/prove.py
+
+Https-läget (compose.https.yaml) bevisas med adresserna i miljön:
+  KEYCLOAK_URL=https://localhost:8444 RECEPTA_WEB_URL=https://localhost:3010 python3 prove/prove.py
 """
 
-import base64, hashlib, html, http.cookiejar, json, os, re, secrets, sys, time
+import base64, hashlib, html, http.cookiejar, json, os, re, secrets, ssl, sys, time
 import urllib.error, urllib.parse, urllib.request
 from pathlib import Path
 
@@ -39,6 +42,15 @@ USERNAME = TEST_USER["username"]
 PASSWORD = TEST_USER["credentials"][0]["value"]
 EXPECTED_PNR = TEST_USER["attributes"]["personal_number"][0]
 
+# Python litar inte på nyckelringen i macOS. I https-läget pekas certifikatet
+# ut här: det som dev/https-cert.sh har exporterat, eller KEYCLOAK_CA_FILE.
+TLS = None
+if BASE.startswith("https://"):
+    ca_file = ENV.get("KEYCLOAK_CA_FILE") or str(ROOT / "certs" / "localhost.pem")
+    if not Path(ca_file).exists():
+        sys.exit(f"FEL: certifikatet {ca_file} saknas. Kör ./dev/https-cert.sh först.")
+    TLS = ssl.create_default_context(cafile=ca_file)
+
 checks = []
 
 
@@ -66,7 +78,10 @@ class LocalhostCookies(http.cookiejar.DefaultCookiePolicy):
 
 def browser():
     jar = http.cookiejar.CookieJar(LocalhostCookies())
-    return urllib.request.build_opener(NoRedirect, urllib.request.HTTPCookieProcessor(jar))
+    handlers = [NoRedirect, urllib.request.HTTPCookieProcessor(jar)]
+    if TLS:
+        handlers.append(urllib.request.HTTPSHandler(context=TLS))
+    return urllib.request.build_opener(*handlers)
 
 
 def call(opener, method, url, form=None):
@@ -280,7 +295,7 @@ def main():
     id_claims = json.loads(unb64url(tokens["id_token"].split(".")[1]))
     request = urllib.request.Request(CONFIG["userinfo_endpoint"],
                                      headers={"Authorization": f"Bearer {tokens['access_token']}"})
-    with urllib.request.urlopen(request, timeout=30) as response:
+    with urllib.request.urlopen(request, timeout=30, context=TLS) as response:
         userinfo = json.loads(response.read())
     for name, data in (("id-token", id_claims), ("userinfo", userinfo)):
         if EXPECTED_PNR in json.dumps(data):

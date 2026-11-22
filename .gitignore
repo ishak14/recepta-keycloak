@@ -18,6 +18,7 @@
 __pycache__/
 
 # Certifikat, nycklar och lokala exporter
+certs/
 *.pem
 *.key
 *.p12

@@ -20,6 +20,23 @@ python3 prove/prove.py
 
 Stoppa med `docker compose down`. Databasen ligger kvar i volymen `recepta-keycloak_keycloak-db`.
 
+### Https lokalt
+
+```bash
+./dev/https-cert.sh
+```
+
+```bash
+docker compose -f compose.yaml -f compose.https.yaml up -d
+```
+
+Keycloak svarar då på `https://localhost:8444` (8443 används av `safeaid-keycloak`), och utfärdaren blir `https://localhost:8444/realms/recepta`. Tillbaka till http: `docker compose up -d` utan den andra filen.
+
+- **Certifikatet** är datorns utvecklingscertifikat för `localhost` (`dotnet dev-certs https`). `dev/https-cert.sh` exporterar det till `certs/`, som inte checkas in.
+- **Sajtens adress i realmen** sätts av `dev-seed` varje gång compose startar, från `RECEPTA_WEB_URL`. I https-läget blir den `https://localhost:3010`. Därför går det att byta läge utan att tömma databasen.
+- **Ingen HSTS lokalt.** `dev-seed` tar bort rubriken i realmerna `recepta` och `master`. Webbläsaren sparar HSTS per värdnamn, så annars skulle allt annat på `localhost` tvingas till https. I drift ska rubriken finnas.
+- **Beviset över https:** `KEYCLOAK_URL=https://localhost:8444 RECEPTA_WEB_URL=https://localhost:3010 python3 prove/prove.py`
+
 ### Varför port 8082
 
 `safeaid-keycloak` använder 8080 och Expo för `safeaid-mobile` lyssnar på 8081. Porten byttes från 8081 till 8082 i kontraktet 2026-11-21. Compose binder både `127.0.0.1:8082` och `[::1]:8082`.
