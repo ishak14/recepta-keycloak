@@ -70,6 +70,22 @@
           "temporary": false
         }
       ]
+    },
+    {
+      "username": "test-coach",
+      "enabled": true,
+      "firstName": "Kim",
+      "lastName": "Testcoach",
+      "realmRoles": [
+        "coach"
+      ],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Test-1234!",
+          "temporary": false
+        }
+      ]
     }
   ]
 }

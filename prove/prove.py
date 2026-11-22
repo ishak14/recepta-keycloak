@@ -123,16 +123,29 @@ def login_form_action(body):
     return html.unescape(match.group(1))
 
 
-def login(password, verifier):
+def login(password, verifier, username=None):
     """Går igenom flödet som en webbläsare. Ger (status, Location, state)."""
+    username = username or USERNAME
     opener = browser()
     challenge = b64url(hashlib.sha256(verifier.encode()).digest())
     state, (status, _, body) = authorize(opener, challenge)
     if status != 200:
         fail(f"inloggningssidan gav {status}")
     status, headers, body = call(opener, "POST", login_form_action(body),
-                                 {"username": USERNAME, "password": password, "credentialId": ""})
+                                 {"username": username, "password": password, "credentialId": ""})
     return status, headers.get("Location") or "", state, body
+
+
+def claims_for(user):
+    """Loggar in en testanvändare och ger claims i access-token."""
+    verifier = secrets.token_urlsafe(48)
+    status, location, state, _ = login(user["credentials"][0]["value"], verifier, user["username"])
+    if status != 302:
+        fail(f"{user['username']} kunde inte logga in ({status})")
+    status, tokens = token_request(code_from(location, state), verifier)
+    if status != 200:
+        fail(f"kodutbytet för {user['username']} gav {status}")
+    return verify_rs256(tokens["access_token"])
 
 
 def token_request(code, verifier, secret=CLIENT_SECRET):
@@ -276,6 +289,23 @@ def main():
     if EXPECTED_PNR in json.dumps(others):
         fail("personnumret finns i fler claims än personal_number")
     ok("personnumret finns bara i claimet personal_number i access-token")
+
+    # Roller: bara personalen har dem, och de bär inget personnummer.
+    def roles(data):
+        value = data.get("roles") or []
+        return value if isinstance(value, list) else [value]
+
+    if {"doctor", "coach"} & set(roles(claims)):
+        fail(f"patienten {USERNAME} har en personalroll")
+    ok("patienten har ingen personalroll")
+    users = json.loads((ROOT / "dev" / "testanvandare.json").read_text())["users"]
+    for user in (u for u in users if u.get("realmRoles")):
+        staff = claims_for(user)
+        if set(user["realmRoles"]) != {"doctor", "coach"} & set(roles(staff)):
+            fail(f"{user['username']} har rollerna {roles(staff)!r}, väntat {user['realmRoles']!r}")
+        if "personal_number" in staff:
+            fail(f"{user['username']} har ett personnummer i token")
+        ok(f"{user['username']} har rollen {', '.join(user['realmRoles'])} och inget personnummer")
 
     print(f"KLART: {len(checks)} kontroller gick igenom")
 

@@ -36,6 +36,9 @@ Läggs in av tjänsten `dev-seed` från `dev/testanvandare.json` varje gång com
 | `test-erik` | `Test-1234!` | Erik Provberg | `189007219810` |
 | `test-sara` | `Test-1234!` | Sara Exempelsson | `189007229801` |
 | `test-lakare` | `Test-1234!` | Lena Testläkare | inget, har rollen `doctor` |
+| `test-coach` | `Test-1234!` | Kim Testcoach | inget, har rollen `coach` (hälsocoach i viktnedgångsprogrammet) |
+
+Rollen `coach` lades till 2026-11-22. Realmfilen läses bara in när realmen inte finns, så i en databas som redan är skapad lägger `dev-seed` in rollen och dess koppling till `recepta-web`. Kör `docker compose up dev-seed` efter uppdateringen.
 
 Sajten skickar `kc_idp_hint=bankid`. Så länge `bankid` är avstängd bortser Keycloak från det och visar formuläret med användarnamn och lösenord.
 

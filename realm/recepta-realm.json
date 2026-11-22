@@ -211,6 +211,10 @@
       {
         "name": "doctor",
         "description": "Läkare som bedömer ärenden i den tillfälliga läkarvyn. Tilldelas bara av administratör."
+      },
+      {
+        "name": "coach",
+        "description": "Hälsocoach i viktnedgångsprogrammet. Ser coachens chatt och kostplanen, aldrig ärenden. Tilldelas bara av administratör."
       }
     ]
   },
@@ -218,7 +222,8 @@
     {
       "client": "recepta-web",
       "roles": [
-        "doctor"
+        "doctor",
+        "coach"
       ]
     }
   ]
